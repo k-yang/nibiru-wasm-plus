@@ -1,0 +1,26 @@
+[workspace]
+members = ["contracts/*"]
+
+[workspace.dependencies]
+cosmwasm-schema = "2.0.2"
+cosmwasm-std = { version = "2.1.3", features = [
+  "staking",
+  "stargate",
+  "cosmwasm_2_0",
+  # Enable this if you only deploy to chains that have CosmWasm 1.4 or higher
+  # "cosmwasm_1_4",
+] }
+cw-storage-plus = "2.0.0"
+cw2 = "2.0.0"
+thiserror = { version = "1.0.58" }
+nibiru-std = "0.2.0"
+prost = "0.12.3"
+cw-multi-test = { version = "2.1.1", features = [
+  "staking",
+  "stargate",
+  "cosmwasm_2_0",
+] }
+anyhow = "1.0.86"
+cw-utils = "2.0.0"
+schemars = "0.8.21"
+serde = "1.0.208"
