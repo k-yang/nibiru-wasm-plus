@@ -58,7 +58,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
 }
 
 pub mod query {
-    use std::{collections::HashMap, hash::Hash};
+    use std::collections::HashMap;
 
     use nibiru_std::proto::nibiru::oracle::{
         QueryExchangeRatesRequest, QueryExchangeRatesResponse,

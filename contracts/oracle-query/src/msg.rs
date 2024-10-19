@@ -1,4 +1,4 @@
-use std::{collections::HashMap, iter::Map};
+use std::collections::HashMap;
 
 use cosmwasm_schema::{cw_serde, QueryResponses};
 
