@@ -18,10 +18,7 @@ pub fn instantiate(
     info: MessageInfo,
     _msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
-    let state = State {
-        owner: info.sender.clone(),
-        counter: 0,
-    };
+    let state = State { counter: 0 };
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     STATE.save(deps.storage, &state)?;
 
@@ -49,13 +46,16 @@ pub fn execute(
                 deps.storage,
                 &State {
                     counter: new_counter,
-                    owner: state.owner,
                 },
             )?;
             // Increment logic here
             Ok(Response::new()
                 .add_attribute("method", "increment")
                 .add_attribute("by", by.to_string()))
+        }
+        ExecuteMsg::ResetCounter {} => {
+            STATE.save(deps.storage, &State { counter: 0 })?;
+            Ok(Response::new().add_attribute("method", "reset"))
         }
     }
 }
