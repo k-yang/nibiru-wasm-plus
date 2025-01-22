@@ -1,5 +1,6 @@
 use cosmwasm_std::{
-    entry_point, to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+    entry_point, to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdError,
+    StdResult,
 };
 use cw2::set_contract_version;
 
@@ -7,7 +8,7 @@ use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
 // version info for migration info
-const CONTRACT_NAME: &str = "crates.io:infinite-loop";
+const CONTRACT_NAME: &str = "crates.io:counter";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -32,12 +33,10 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        ExecuteMsg::Run {} => {
-            let mut counter = 0;
-            loop {
-                counter = counter + 1;
-            }
-        }
+        ExecuteMsg::WasteGas {} => Err(ContractError::Std(StdError::generic_err(
+            "arbitrary revert".to_string(),
+        ))),
+        ExecuteMsg::NoGas {} => Ok(Response::new().add_attribute("method", "no_gas")),
     }
 }
 

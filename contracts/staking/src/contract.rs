@@ -1,5 +1,6 @@
 use cosmwasm_std::{
-    entry_point, to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+    entry_point, to_json_binary, Binary, Coin, CosmosMsg, Deps, DepsMut, Empty, Env, MessageInfo,
+    Response, StakingMsg, StdResult, Uint128,
 };
 use cw2::set_contract_version;
 
@@ -28,15 +29,24 @@ pub fn instantiate(
 pub fn execute(
     _deps: DepsMut,
     _env: Env,
-    _info: MessageInfo,
+    info: MessageInfo,
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::Run {} => {
-            let mut counter = 0;
-            loop {
-                counter = counter + 1;
-            }
+            let msg: CosmosMsg<Empty> = CosmosMsg::Staking(StakingMsg::Delegate {
+                validator: "nibivaloper1zaavvzxez0elundtn32qnk9lkm8kmcszuwx9jz".to_string(), // guard creamer's valoper address
+                amount: info.funds[0].clone(),
+            });
+
+            Ok(Response::new()
+                .add_message(msg)
+                .add_attribute("method", "run")
+                .add_attribute(
+                    "validator",
+                    "nibivaloper1zaavvzxez0elundtn32qnk9lkm8kmcszuwx9jz".to_string(),
+                )
+                .add_attribute("amount", info.funds[0].amount.to_string()))
         }
     }
 }
